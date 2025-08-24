@@ -104,7 +104,7 @@ const Landing: React.FC = () => {
               </a>
             </div>
             <div className="flex gap-2">
-              <Button>
+              <Button >
                 <span className="truncate">Get Started Free</span>
               </Button>
               <Button variant={"outline"}>
