@@ -1,10 +1,10 @@
-import ApiError from "../utils/apiError";
-import env from "../config/env";
-import * as jwt from "jsonwebtoken";
-import HTTP from "../config/http";
+import ApiError from '../utils/apiError';
+import env from '../config/env';
+import * as jwt from 'jsonwebtoken';
+import HTTP from '../config/http';
 
-const JWT_SECRET = env.JWT.secret || "randomJwtSecert";
-const JWT_EXPIRES_IN = env.JWT.expiresIn || "1h"; // Token expiry (e.g. 1h, 7d)
+const JWT_SECRET = env.JWT.secret || 'randomJwtSecert';
+const JWT_EXPIRES_IN = env.JWT.expiresIn || '1h'; // Token expiry (e.g. 1h, 7d)
 
 class JwtService {
   async sign(payload: object, expiresIn?: string): Promise<string> {
@@ -27,12 +27,21 @@ class JwtService {
   verify<T = any>(token: string): T | undefined {
     try {
       return jwt.verify(token, JWT_SECRET) as T;
-    } catch (error) {
+    } catch (error: any) {
+      if (error?.name == 'TokenExpiredError') {
+        throw new ApiError(
+          'Accesstoken is expired',
+          HTTP.statusCode.FORBIDDEN,
+          HTTP.code.FORBIDDEN,
+          'jwt token is expired please login again'
+        );
+      }
+
       throw new ApiError(
-        "Invalid accesstoken",
+        'Invalid accesstoken',
         HTTP.statusCode.FORBIDDEN,
         HTTP.code.FORBIDDEN,
-        "Invilad JWT token"
+        'Invilad JWT token'
       );
     }
   }
