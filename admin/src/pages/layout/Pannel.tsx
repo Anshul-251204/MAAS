@@ -41,7 +41,7 @@ const Layout: React.FC = () => {
             </Breadcrumb>
           </div>
         </header>
-        <div className="flex h-[92vh]  md:w-[80vw] flex-1 flex-col gap-4 p-4">
+        <div className="flex flex-1 flex-col gap-4 p-4">
           <Outlet />
         </div>
       </SidebarInset>
