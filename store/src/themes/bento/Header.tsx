@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 
-const Header = () => {
+export const Header = () => {
     return (
       <header className="w-full px-8 py-4  shadow-lg flex justify-between">
         <div className="flex gap-4 items-center">

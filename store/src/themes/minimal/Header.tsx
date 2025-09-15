@@ -8,7 +8,7 @@ type NavProps = {
   storeName: string;
 };
 
-const Nav = () => {
+export const Header = () => {
   const store = {
     logoUrl:
       "https://static.vecteezy.com/system/resources/previews/047/656/219/non_2x/abstract-logo-design-for-any-corporate-brand-business-company-vector.jpg",
@@ -42,4 +42,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default Header;

@@ -1,28 +1,21 @@
 import React from "react";
-import Nav from "./Nav";
+import Header from "./Header";
 import Footer from "./Footer";
 import Hero from "./Hero";
 import SocialHanldes from "./SocialMediaHandles";
 import Categories from "./Categories";
 import FeatureProduct from "./FeatureProducts";
 
-
-
-
-
 const Minimal = () => {
   const categories = ["All", "Minimal", "New", "Trendy", "Sofa", "Bed"];
   return (
     <div className="w-full ">
-      <Nav />
+      <Header />
       <Hero />
       <Categories />
-      <FeatureProduct/>
-      
-
-      <SocialHanldes/>
-
-      <Footer/>
+      <FeatureProduct />
+      <SocialHanldes />
+      <Footer />
     </div>
   );
 };
