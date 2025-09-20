@@ -1,7 +1,7 @@
 const Hero = () => {
     return (
-      <div className="w-full h-[90vh] p-8 flex gap-4">
-        <div className=" flex-1 bg-green-500 rounded-4xl overflow-hidden shadow-xl ">
+      <div className="w-full min-h-[90vh] md:h-[90vh] p-8  flex min-sm:flex-row flex-col gap-4">
+        <div className=" h-[60vh] md:h-full flex-1 bg-green-500 rounded-4xl overflow-hidden shadow-xl ">
           <img
             className="w-full h-full object-cover  "
             src="https://plus.unsplash.com/premium_photo-1678074057896-eee996d4a23e?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -9,8 +9,8 @@ const Hero = () => {
           />
         </div>
   
-        <div className="flex-1 flex flex-col gap-4 ">
-          <div className="w-full bg-amber-500 h-[40%] rounded-4xl overflow-hidden  ">
+        <div className="flex-1 flex sm:flex-col gap-4 ">
+          <div className="w-full bg-amber-500 sm:h-[40%] rounded-4xl overflow-hidden  ">
             <img
               className="w-full h-full object-cover "
               src="https://plus.unsplash.com/premium_photo-1684338795288-097525d127f0?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"

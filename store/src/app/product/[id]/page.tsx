@@ -1,5 +1,5 @@
 import React from "react";
-import HeaderAccrodingToTheme from "../Header";
+import HeaderAccrodingToTheme from "../../../components/ui/Header";
 import ProductDetails from "./ProductDetails";
 
 const page = () => {

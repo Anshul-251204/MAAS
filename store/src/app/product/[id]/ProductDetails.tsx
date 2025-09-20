@@ -32,8 +32,8 @@ const ProductDetails: React.FC<ProductDetailsProp> = ({ theme }) => {
   const [currIdx, setCurrIdx] = useState<number>(0);
 
   return (
-    <div className="w-full h-[89.8vh] flex">
-      <div className={`w-[45%] flex flex-col gap-4 p-4 `}>
+    <div className="w-full h-[89.8vh] flex flex-col md:flex-row">
+      <div className={`w-full md:w-[45%] flex flex-col gap-4 p-4 `}>
         {/* single image  */}
         <div className={`w-full  h-[80%] flex gap-2  `}>
           <div className="h-full flex items-center  w-6">
@@ -47,7 +47,7 @@ const ProductDetails: React.FC<ProductDetailsProp> = ({ theme }) => {
           </div>
           <div className={`w-full h-full  `}>
             <img
-              className={`w-full h-full object-contain  rounded-2xl `}
+              className={`w-full min-h-full max-h-full object-contain  rounded-2xl `}
               src={img[currIdx].img}
               alt=""
             />
@@ -66,12 +66,12 @@ const ProductDetails: React.FC<ProductDetailsProp> = ({ theme }) => {
         </div>
 
         {/* all images */}
-        <div className="flex justify-between px-5">
+        <div className="flex justify-between sm:px-5">
           {img.map((pro, idx) => (
             <div
               onClick={() => setCurrIdx(idx)}
               key={idx}
-              className={`w-20 h-20 border cursor-pointer border-[var(--color-border)] overflow-hidden ${
+              className={`w-16 h-16 sm:w-20 sm:h-20 border cursor-pointer border-[var(--color-border)] overflow-hidden ${
                 theme == "BENTO" ? "rounded-2xl" : "rounded-md"
               } bg-accent `}
             >
@@ -84,10 +84,11 @@ const ProductDetails: React.FC<ProductDetailsProp> = ({ theme }) => {
           ))}
         </div>
       </div>
-      <div className="w-[55%] font-roboto flex flex-col p-4 gap-4">
+
+      <div className="w-full md:w-[55%] font-roboto flex flex-col p-4 gap-2 sm:gap-4">
         <h1 className="font-semibold text-2xl">Jeans Pant</h1>
         <p className="font-medium text-lg">Rs 1440</p>
-        <p className="text-md text-[var(--color-foreground)]/70">
+        <p className="text-sx sm:text-md text-[var(--color-foreground)]/70">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo sequi
           aliquam voluptatem voluptates commodi optio sapiente odit laborum,
           doloremque aut maiores enim dolorum earum quibusdam! Impedit
@@ -100,7 +101,7 @@ const ProductDetails: React.FC<ProductDetailsProp> = ({ theme }) => {
 
         <div>
           <h1 className="font-semibold text-2xl py-4">Colors</h1>
-          <div className="color flex gap-8">
+          <div className="color flex flex-wrap gap-4 sm:gap-8">
             {[
               "bg-red-500",
               "bg-green-500",
@@ -114,7 +115,7 @@ const ProductDetails: React.FC<ProductDetailsProp> = ({ theme }) => {
                 <div
                   className={`active:scale-[1.2] cursor-pointer ${c} w-8 h-8 border border-[var(--color-border)] rounded-full `}
                 ></div>
-                <p className="py-2 text-center text-md font-medium font-roboto">
+                <p className="py-2 text-center text-xs sm:text-md font-medium font-roboto">
                   {c.split("-")[1].toUpperCase()}
                 </p>
               </div>
@@ -124,13 +125,13 @@ const ProductDetails: React.FC<ProductDetailsProp> = ({ theme }) => {
 
         <div>
           <h1 className="font-semibold text-2xl py-4">Size</h1>
-          <div className="color flex gap-8">
+          <div className="color flex flex-wrap gap-4 md:gap-8">
             {["xxs", "xs", "s", "m", "l", "xl", "xxl"].map((c, idx) => (
               <div
                 key={idx}
-                className={`active:scale-[1.2] cursor-pointer ${c} w-14 h-14 flex justify-center items-center border border-[var(--color-border)] rounded-full `}
+                className={`active:scale-[1.2] cursor-pointer ${c} w-10 h-10 md:w-14 md:h-14 flex justify-center items-center border border-[var(--color-border)] rounded-full `}
               >
-                <p className="py-2 text-center text-md font-medium font-roboto">
+                <p className="py-2 text-center text-xs sm:text-md font-medium font-roboto">
                   {c.toUpperCase()}
                 </p>
               </div>
