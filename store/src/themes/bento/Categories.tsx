@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 type CategoryProps = {
   img: string;
@@ -5,14 +6,14 @@ type CategoryProps = {
 };
 const Category: React.FC<CategoryProps> = ({ img, name }) => {
   return (
-    <div className="min-w-[180px] h-[220px] hover:cursor-pointer ">
+    <Link href={"/category/random-cat"} className="min-w-[180px] h-[220px] hover:cursor-pointer ">
       <div className="w-full h-[180px]  rounded-full overflow-hidden object-center shadow-xl ">
         <img src={img} alt="" className="w-full h-full object-cover" />
       </div>
       <p className="text-center text-md font-semibold font-roboto p-2 hover:text-[var(--color-primary)]">
         {name}
       </p>
-    </div>
+    </Link>
   );
 };
 

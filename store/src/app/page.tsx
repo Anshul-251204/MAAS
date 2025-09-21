@@ -5,8 +5,8 @@ export default async function Home() {
   return (
     <>
       <div>
-        {/* <Bento /> */}
-        <Minimal/>
+        <Bento />
+        {/* <Minimal/> */}
       </div>
     </>
   );

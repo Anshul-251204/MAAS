@@ -118,7 +118,7 @@ const ThemeAndLook: React.FC = () => {
         </Label>
         {heroImages.length === 0 ? (
           <div
-            className="border-primary hover:border-primary/50 flex h-[25vh]  cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-8 text-center transition-colors"
+            className="border-primary hover:border-primary/50 flex h-[25vh] cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-8 text-center transition-colors"
             onDrop={(e) => {
               e.preventDefault();
               handleImageUpload(e.dataTransfer.files);
@@ -132,12 +132,12 @@ const ThemeAndLook: React.FC = () => {
             </p>
           </div>
         ) : (
-          <div className="space-y-4 ">
+          <div className="space-y-4">
             <div className="flex flex-wrap gap-2">
               {Array.from({ length: 5 }).map((_, i) => (
                 <div key={i} className="relative">
                   {heroImages[i] ? (
-                    <div className="border-border relative h-28 w-28 md:h-32 md:w-32 overflow-hidden rounded-lg border">
+                    <div className="border-border relative h-28 w-28 overflow-hidden rounded-lg border md:h-32 md:w-32">
                       <img
                         src={heroImages[i] || "/placeholder.svg"}
                         alt={`Hero ${i + 1}`}
@@ -147,7 +147,7 @@ const ThemeAndLook: React.FC = () => {
                         onClick={() => removeImage(i)}
                         className="bg-destructive text-destructive-foreground hover:bg-destructive/90 absolute top-3 right-3 flex h-5 w-5 items-center justify-center rounded-full text-xs"
                       >
-                        <X className="h-3 w-3 text-background"  />
+                        <X className="text-background h-3 w-3" />
                       </button>
                     </div>
                   ) : (
@@ -187,7 +187,7 @@ const ThemeAndLook: React.FC = () => {
         />
       </div>
 
-        {/* store tagline  */}
+      {/* store tagline  */}
       <div>
         <Label className="mb-4 flex items-center gap-3 text-base font-medium">
           Store tagline
@@ -196,19 +196,66 @@ const ThemeAndLook: React.FC = () => {
         <Input />
       </div>
 
-        {/* store theme  */}
+      {/* store theme  */}
       <div>
         <Label className="mb-4 flex items-center gap-3 text-base font-medium">
           Theme
         </Label>
 
         <div className="flex space-x-4 overflow-x-auto rounded-lg border p-4">
-          <Button className="bg-red-500 hover:bg-red-500">Accent</Button>
-          <Button className="bg-blue-500 hover:bg-blue-500">Accent</Button>
-          <Button className="bg-yellow-500 hover:bg-yellow-500">Accent</Button>
-          <Button className="bg-purple-500 hover:bg-purple-500">Accent</Button>
-          <Button className="bg-pink-500 hover:bg-pink-500">Accent</Button>
-          <Button variant={"outline"}>Custom</Button>
+          <div>
+            <h1 className="mb-2 text-xl font-semibold">Minimal</h1>
+
+            <button className="w-full overflow-hidden rounded-2xl border object-cover sm:w-[350px]">
+              <img src="./minimal.png" alt="" />
+            </button>
+          </div>
+
+          <div>
+            <h1 className="mb-2 text-xl font-semibold">Minimal</h1>
+
+            <button className="w-full overflow-hidden rounded-2xl border object-cover sm:w-[350px]">
+              <img src="./bento.png" alt="" />
+            </button>
+          </div>
+        </div>
+
+        <div className="mt-4 flex flex-col gap-4 space-x-4 overflow-x-auto rounded-lg border p-4">
+          <div className="flex items-center gap-4">
+            <h1 className="w-[100px] font-semibold">Background : </h1>
+            <div className="flex gap-4">
+              <div className="h-8 w-8 rounded-full border bg-white"></div>
+              <div className="h-8 w-8 rounded-full border bg-blue-500"></div>
+              <div className="h-8 w-8 rounded-full border bg-red-500"></div>
+              <div className="flex h-8 w-8 items-center justify-center rounded-full border font-semibold">
+                <Plus size={"1.2rem"} />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <h1 className="w-[100px] font-semibold">foreground : </h1>
+            <div className="flex gap-4">
+              <div className="h-8 w-8 rounded-full border bg-white"></div>
+              <div className="h-8 w-8 rounded-full border bg-gray-500"></div>
+              <div className="h-8 w-8 rounded-full border bg-yellow-100"></div>
+              <div className="flex h-8 w-8 items-center justify-center rounded-full border font-semibold">
+                <Plus size={"1.2rem"} />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <h1 className="w-[100px] font-semibold">Accent : </h1>
+            <div className="flex gap-4">
+              <div className="h-8 w-8 rounded-full border bg-green-500"></div>
+              <div className="h-8 w-8 rounded-full border bg-red-500"></div>
+              <div className="h-8 w-8 rounded-full border bg-blue-500"></div>
+              <div className="flex h-8 w-8 items-center justify-center rounded-full border font-semibold">
+                <Plus size={"1.2rem"} />{" "}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

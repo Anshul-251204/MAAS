@@ -1,5 +1,5 @@
 import HeaderAccrodingToTheme from "@/components/ui/Header";
-import { div } from "motion/react-client";
+import Link from "next/link";
 import React from "react";
 
 type CategoriesProductProps = {
@@ -13,12 +13,12 @@ type CategoriesProductProps = {
 
 const CategoriesProduct: React.FC<CategoriesProductProps> = ({ product }) => {
   return (
-    <div className="overflow-hidden border cursor-pointer border-[var(--color-border)] flex flex-col gap-2 pb-4 rounded-2xl">
+    <Link href={"/product/random"} className="overflow-hidden hover:shadow-2xl border cursor-pointer border-[var(--color-border)] flex flex-col gap-2 pb-4 rounded-2xl">
       <img className="w-full object-cover h-[300px] " src={product.img} alt="" />
       <p className="px-4 font-bold">₹ {product.price}</p>
       <h1 className="text-md font-semibold px-4">{product.title}</h1>
       <p className="px-4 text-sm font-medium">{product.description}</p>
-    </div>
+    </Link>
   );
 };
 
