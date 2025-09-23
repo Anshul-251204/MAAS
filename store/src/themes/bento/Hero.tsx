@@ -1,6 +1,6 @@
 const Hero = () => {
     return (
-      <div className="w-full min-h-[90vh] md:h-[90vh] p-8  flex min-sm:flex-row flex-col gap-4">
+      <div className="w-full min-h-[90vh] md:h-[90vh] p-4 md:p-8  flex min-sm:flex-row flex-col gap-4">
         <div className=" h-[60vh] md:h-full flex-1 bg-green-500 rounded-4xl overflow-hidden shadow-xl ">
           <img
             className="w-full h-full object-cover  "
