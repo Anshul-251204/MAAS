@@ -1,10 +1,12 @@
 import ApiError from '../utils/apiError';
 import HTTP from '../config/http';
 import type { requestSchemas } from '../validators';
-import storeRepo from '../repositories/storeRepo';
+import StoreRepo from '../repositories/storeRepo';
 import env from '../config/env';
+import ThemeRepo from '../repositories/themeRepo';
+import { ObjectId } from 'mongoose';
 
-export class UserService {
+export class StoreServices {
   async registerStore(
     storeDetails: requestSchemas.CreateStoreRequestType,
     userId: string
@@ -18,12 +20,11 @@ export class UserService {
       storeDetails.customDomain = '';
     }
 
-    const storeExist = await storeRepo.findByDomain(
+    const storeExist = await StoreRepo.findByDomain(
       storeDetails.domain!,
       storeDetails.customDomain!
     );
 
-    console.log(storeExist);
     if (storeExist) {
       throw new ApiError(
         'Store already exists with this domain or custom domin',
@@ -33,17 +34,26 @@ export class UserService {
       );
     }
 
-    const store = await storeRepo.create({ ...storeDetails, userId: userId });
+    const store = await StoreRepo.create({ ...storeDetails, userId: userId });
 
     return store;
   }
 
   async getByDomin(domin: string) {
-    return await storeRepo.findByDomain(domin);
+    return await StoreRepo.findByDomain(domin);
   }
   async getById(id: string) {
-    return await storeRepo.findById(id);
+    return await StoreRepo.findById(id);
+  }
+  async AddThemeConfig(config: requestSchemas.CreateThemeSchemaType) {
+    const theme = ThemeRepo.create(config);
+    return theme;
+  }
+  async getStoreDetails(storeId: string) {
+    const store = await StoreRepo.findById(storeId);
+    const theme = await ThemeRepo.findByStoreId(storeId);
+    return { store, theme };
   }
 }
 
-export default new UserService();
+export default new StoreServices();

@@ -9,7 +9,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 
 const ThemeAndLook: React.FC = () => {
   const [logo, setLogo] = useState<string>("");
@@ -29,7 +29,7 @@ const ThemeAndLook: React.FC = () => {
     (files: FileList | null, index?: number) => {
       if (!files) return;
 
-      Array.from(files).forEach((file, i) => {
+      Array.from(files).forEach((file) => {
         const reader = new FileReader();
         reader.onload = (e) => {
           const result = e.target?.result as string;

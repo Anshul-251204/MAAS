@@ -1,9 +1,9 @@
-import { requestSchemas } from "../validators";
-import asyncHandler from "../utils/asyncHandler";
-import { Request, Response } from "express";
-import storeServices from "../services/storeServices";
-import HTTP from "../config/http";
-import ApiResponse from "../utils/apiResponse";
+import { requestSchemas } from '../validators';
+import asyncHandler from '../utils/asyncHandler';
+import { NextFunction, Request, Response } from 'express';
+import StoreServices from '../services/storeServices';
+import HTTP from '../config/http';
+import ApiResponse from '../utils/apiResponse';
 
 const createStore = asyncHandler(
   async (
@@ -13,7 +13,7 @@ const createStore = asyncHandler(
     const storeDetails = req.body;
     const userId = req.user?._id as string;
 
-    const store = await storeServices.registerStore(storeDetails, userId);
+    const store = await StoreServices.registerStore(storeDetails, userId);
 
     res
       .status(HTTP.statusCode.OK)
@@ -21,7 +21,46 @@ const createStore = asyncHandler(
         new ApiResponse(
           HTTP.statusCode.OK,
           store,
-          "Store created successfully ✅",
+          'Store created successfully ✅',
+          HTTP.code.SUCCESS
+        )
+      );
+  }
+);
+
+const addThemeConfig = asyncHandler(
+  async (
+    req: Request<{}, {}, requestSchemas.CreateThemeSchemaType>,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const result = await StoreServices.AddThemeConfig(req.body);
+
+    res
+      .status(HTTP.statusCode.CREATED)
+      .json(
+        new ApiResponse(
+          HTTP.statusCode.CREATED,
+          result,
+          'Theme created successfully ✅',
+          HTTP.code.CREATED
+        )
+      );
+  }
+);
+const getStoreDetails = asyncHandler(
+  async (req: Request<{ storeId: string }>, res: Response) => {
+    const { storeId } = req.params;
+
+    const result = await StoreServices.getStoreDetails(storeId);
+
+    res
+      .status(HTTP.statusCode.CREATED)
+      .json(
+        new ApiResponse(
+          HTTP.statusCode.OK,
+          result,
+          'Store details fetched successfully ✅',
           HTTP.code.SUCCESS
         )
       );
@@ -30,4 +69,6 @@ const createStore = asyncHandler(
 
 export const StoreControllers = {
   createStore,
+  addThemeConfig,
+  getStoreDetails
 };

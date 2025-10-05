@@ -186,45 +186,84 @@ export const createProductSchema = z.object({
       }
     },
   }),
-  price: z.number({
+  price: z
+    .number({
+      error: issue => {
+        if (issue.input === undefined) {
+          return 'Price is required !';
+        }
+        if (issue.code === 'invalid_type') {
+          return 'Price can only be string';
+        }
+      },
+    })
+    .min(0, {
+      error: issue => {
+        if (issue.code == 'too_small') {
+          return 'Price can not be less then zero';
+        }
+      },
+    }),
+  storeId: z.union([z.string(), z.instanceof(mongoose.Types.ObjectId)], {
     error: issue => {
-      if (issue.input === undefined) {
-        return 'Price is required !';
+      if (issue.input == undefined) {
+        return 'Store id is required !';
       }
-      if (issue.code === 'invalid_type') {
-        return 'Price can only be string';
+      if (issue.code == 'invalid_union') {
+        return 'Invalid store id';
       }
     },
-  }).min(0,{
-    error:(issue)=>{
-      if(issue.code == "too_small") {
-        return "Price can not be less then zero"
-      }
-    }
   }),
-  storeId: z.union([z.string(), z.instanceof(mongoose.Types.ObjectId)],{
-    error:(issue)=>{
-      if(issue.input == undefined){
-        return "Store id is required !"
-      }
-      if(issue.code == "invalid_union"){
-        return "Invalid store id"
-      }
-    }
-  }),
-  stock: z.number({
-    error:(issue)=>{
-      if(issue.code == "invalid_type") {
-        return "Stock can only be a number"
-      }
-    }
-  }).min(1,{
-    error:(issue)=>{
-      if(issue.code == "too_small"){
-        return "Stock can not be less one"
-      }
-    }
-  })
+  stock: z
+    .number({
+      error: issue => {
+        if (issue.code == 'invalid_type') {
+          return 'Stock can only be a number';
+        }
+      },
+    })
+    .min(1, {
+      error: issue => {
+        if (issue.code == 'too_small') {
+          return 'Stock can not be less one';
+        }
+      },
+    }),
 });
 
 export type CreateProductSchemaType = z.infer<typeof createProductSchema>;
+
+// @theme
+
+export const CreateThemeSchema = z.object({
+  storeId: z.string({
+    error: issue =>
+      issue.input === undefined ? 'StoreId is required.' : undefined,
+  }),
+  logo: z.url({
+    error: issue =>
+      issue.input === undefined ? 'Logo is required.' : undefined,
+  }),
+  storeTagLine: z.string().optional(),
+  media: z
+    .array(
+      z.object({
+        url: z.string(),
+        key: z.string(),
+      })
+    )
+    .min(1, 'at least one file required')
+    .max(5, 'max 5 files'),
+  theme: z.enum(['MINIMAL', 'BENTO']),
+  backgroud: z.string().regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, {
+    message: 'Invalid hex color code for Background',
+  }),
+  foreground: z.string().regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, {
+    message: 'Invalid hex color code for Foreground',
+  }),
+  accent: z.string().regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, {
+    message: 'Invalid hex color code for Accent',
+  }),
+});
+
+export type CreateThemeSchemaType = z.infer<typeof CreateThemeSchema>;
