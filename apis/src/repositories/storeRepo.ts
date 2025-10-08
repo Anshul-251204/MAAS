@@ -1,12 +1,13 @@
-import { requestSchemas } from "../validators";
-import Store, { IStore } from "../models/storeModel";
-import { FilterQuery, UpdateQuery } from "mongoose";
+import { requestSchemas } from '../validators';
+import Store, { IStore } from '../models/storeModel';
+import { FilterQuery, UpdateQuery } from 'mongoose';
 
 export class StoreRepository {
   async create(
     storeData: requestSchemas.CreateStoreRequestType
   ): Promise<IStore> {
-    const store = new Store({ ...storeData, plan: "free", status: "active" });
+    console.log('store creation', storeData);
+    const store = new Store({ ...storeData, plan: 'free', status: 'active' });
     return await store.save();
   }
 
@@ -22,15 +23,14 @@ export class StoreRepository {
     domain: string,
     customDomain?: string
   ): Promise<IStore | null> {
-
     if (domain && customDomain) {
       return await Store.findOne({
-        $or: [{ domain }, { customDomain: customDomain }],
+        $or: [{ domain: domain }, { customDomain: customDomain }],
       }).exec();
     }
 
     return await Store.findOne({
-      $or: [{ domain }, { customDomain: domain }],
+      domain,
     }).exec();
   }
 
@@ -70,11 +70,11 @@ export class StoreRepository {
     return await Store.exists(filter).then((result: any) => !!result);
   }
 
-  async findByStatus(status: IStore["status"]): Promise<IStore[]> {
+  async findByStatus(status: IStore['status']): Promise<IStore[]> {
     return await Store.find({ status }).exec();
   }
 
-  async findByPlan(plan: IStore["plan"]): Promise<IStore[]> {
+  async findByPlan(plan: IStore['plan']): Promise<IStore[]> {
     return await Store.find({ plan }).exec();
   }
 }

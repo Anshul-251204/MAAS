@@ -108,8 +108,16 @@ export const LoginUserSchema = z.object({
 export type LoginUserRequestType = z.infer<typeof LoginUserSchema>;
 
 export const createStoreSchema = z.object({
-  domain: z.string().trim().optional(),
-  customDomain: z.string().trim().optional(),
+  domain: z
+    .string()
+    .trim()
+    .optional()
+    .transform(val => val?.toLowerCase()),
+  customDomain: z
+    .string()
+    .trim()
+    .optional()
+    .transform(val => val?.toLowerCase()),
   name: z
     .string({
       error: issue =>

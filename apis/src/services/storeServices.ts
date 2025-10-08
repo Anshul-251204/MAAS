@@ -12,19 +12,31 @@ export class StoreServices {
     userId: string
   ) {
     if (!storeDetails?.domain) {
-      storeDetails.domain = `${storeDetails.name}.${env.get(
+      storeDetails.domain = `${storeDetails.name.toLowerCase()}.${env.get(
         'FRONTEND_DOMAIN'
       )}`;
     }
+
     if (!storeDetails?.customDomain) {
       storeDetails.customDomain = '';
     }
 
+    if (
+      storeDetails.domain &&
+      !storeDetails.domain.includes(env.get('FRONTEND_DOMAIN')!)
+    ) {
+      storeDetails.domain = `${storeDetails.domain}.${env.get('FRONTEND_DOMAIN')}`;
+    }
+
+    console.log('domain', storeDetails.domain);
+
     const storeExist = await StoreRepo.findByDomain(
-      storeDetails.domain!,
-      storeDetails.customDomain!
+      storeDetails.domain.toLowerCase()!,
+      storeDetails.customDomain.toLowerCase()!
     );
 
+    console.log('store exist', storeExist);
+    
     if (storeExist) {
       throw new ApiError(
         'Store already exists with this domain or custom domin',

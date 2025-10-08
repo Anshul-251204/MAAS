@@ -2,8 +2,15 @@ import express from 'express';
 import { errorHandler } from './middlewares/errorHandler';
 import { requestLogger } from './middlewares/requestLogger';
 import { storeRouter, userRouter, productRouter, fileRouter } from './routes';
-
+import cors from 'cors';
 const app = express();
+
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -18,6 +25,6 @@ app.get('/', (req, res) => {
 app.use('/auth', userRouter);
 app.use('/api/store', storeRouter);
 app.use('/api/product', productRouter);
-app.use("/api/file",fileRouter);
+app.use('/api/file', fileRouter);
 export default app;
 app.use(errorHandler);
