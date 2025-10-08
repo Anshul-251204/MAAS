@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useNavigate } from "react-router-dom";
 const Testimonials: React.FC = () => {
   const testimonials = [
     {
@@ -26,25 +27,25 @@ const Testimonials: React.FC = () => {
   ];
   return (
     <div>
-      <h2 className="text-[#0d141c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
+      <h2 className="px-4 pt-5 pb-3 text-[22px] leading-tight font-bold tracking-[-0.015em] text-[#0d141c]">
         Loved by entrepreneurs everywhere
       </h2>
 
-      <div className="flex justify-between gap-4 p-4 ">
-        {testimonials.map((testimonial) => (
-          <div className="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40">
-            <div className="w-full h-[40vh] overflow-hidden bg-center bg-no-repeat aspect-square bg-cover rounded-xl flex flex-col">
+      <div className="flex justify-between gap-4 p-4">
+        {testimonials.map((testimonial,idx) => (
+          <div key={idx} className="flex h-full min-w-40 flex-1 flex-col gap-4 rounded-lg">
+            <div className="flex aspect-square h-[40vh] w-full flex-col overflow-hidden rounded-xl bg-cover bg-center bg-no-repeat">
               <img
-                className="w-full h-full object-cover"
+                className="h-full w-full object-cover"
                 src={testimonial.img}
                 alt=""
               />
             </div>
             <div>
-              <p className="text-[#0d141c] text-base font-medium leading-normal">
+              <p className="text-base leading-normal font-medium text-[#0d141c]">
                 {testimonial.text}
               </p>
-              <p className="text-[#49739c] text-sm font-normal leading-normal">
+              <p className="text-sm leading-normal font-normal text-[#49739c]">
                 {testimonial.userDetails}
               </p>
             </div>
@@ -55,10 +56,15 @@ const Testimonials: React.FC = () => {
   );
 };
 const Landing: React.FC = () => {
+  const navigate = useNavigate();
+
+  const redirectToOnBoarding = () => {
+    navigate("/onboarding");
+  };
   return (
-    <div className="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden">
+    <div className="group/design-root relative flex size-full min-h-screen flex-col overflow-x-hidden bg-slate-50">
       <div className="layout-container flex h-full grow flex-col">
-        <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7edf4] px-10 py-3">
+        <header className="flex items-center justify-between border-b border-solid border-b-[#e7edf4] px-10 py-3 whitespace-nowrap">
           <div className="flex items-center gap-4 text-[#0d141c]">
             <div className="size-4">
               <svg
@@ -72,39 +78,39 @@ const Landing: React.FC = () => {
                 ></path>
               </svg>
             </div>
-            <h2 className="text-[#0d141c] text-lg font-bold leading-tight tracking-[-0.015em]">
+            <h2 className="text-lg leading-tight font-bold tracking-[-0.015em] text-[#0d141c]">
               StoreLaunch
             </h2>
           </div>
           <div className="flex flex-1 justify-end gap-8">
             <div className="flex items-center gap-9">
               <a
-                className="text-[#0d141c] text-sm font-medium leading-normal"
+                className="text-sm leading-normal font-medium text-[#0d141c]"
                 href="#"
               >
                 Features
               </a>
               <a
-                className="text-[#0d141c] text-sm font-medium leading-normal"
+                className="text-sm leading-normal font-medium text-[#0d141c]"
                 href="#"
               >
                 Pricing
               </a>
               <a
-                className="text-[#0d141c] text-sm font-medium leading-normal"
+                className="text-sm leading-normal font-medium text-[#0d141c]"
                 href="#"
               >
                 Testimonials
               </a>
               <a
-                className="text-[#0d141c] text-sm font-medium leading-normal"
+                className="text-sm leading-normal font-medium text-[#0d141c]"
                 href="#"
               >
                 FAQ
               </a>
             </div>
             <div className="flex gap-2">
-              <Button >
+              <Button onClick={redirectToOnBoarding}>
                 <span className="truncate">Get Started Free</span>
               </Button>
               <Button variant={"outline"}>
@@ -113,30 +119,30 @@ const Landing: React.FC = () => {
             </div>
           </div>
         </header>
-        <div className="px-40 flex flex-1 justify-center py-5">
-          <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
+        <div className="flex flex-1 justify-center px-40 py-5">
+          <div className="layout-content-container flex max-w-[960px] flex-1 flex-col">
             <div className="@container">
               <div className="flex flex-col gap-6 px-4 py-10 @[480px]:gap-8 @[864px]:flex-row">
-                <div className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl @[480px]:h-auto @[480px]:min-w-[400px] @[864px]:w-full">
+                <div className="aspect-video w-full rounded-xl bg-cover bg-center bg-no-repeat @[480px]:h-auto @[480px]:min-w-[400px] @[864px]:w-full">
                   <img
-                    className="w-full h-full object-cover rounded-2xl"
+                    className="h-full w-full rounded-2xl object-cover"
                     src="landing-page-store-image.jpg"
                     alt=""
                   />
                 </div>
                 <div className="flex flex-col gap-6 @[480px]:min-w-[400px] @[480px]:gap-8 @[864px]:justify-center">
                   <div className="flex flex-col gap-2 text-left">
-                    <h1 className="text-[#0d141c] text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">
+                    <h1 className="text-4xl leading-tight font-black tracking-[-0.033em] text-[#0d141c] @[480px]:text-5xl @[480px]:leading-tight @[480px]:font-black @[480px]:tracking-[-0.033em]">
                       Build Your Store. Zero Skills Required.
                     </h1>
-                    <h2 className="text-[#0d141c] text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal">
+                    <h2 className="text-sm leading-normal font-normal text-[#0d141c] @[480px]:text-base @[480px]:leading-normal @[480px]:font-normal">
                       Launch your online business instantly with our
                       plug-and-play marketplace builder. No coding. No design.
                       Just simple setup.
                     </h2>
                   </div>
-                  <div className="flex-wrap gap-3 flex">
-                    <Button>
+                  <div className="flex flex-wrap gap-3">
+                    <Button onClick={redirectToOnBoarding}>
                       <span className="truncate">Get Started Free</span>
                     </Button>
                     <Button variant={"outline"}>
@@ -146,18 +152,18 @@ const Landing: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col gap-10 px-4 py-10 @container">
+            <div className="@container flex flex-col gap-10 px-4 py-10">
               <div className="flex flex-col gap-4">
-                <h1 className="text-[#0d141c] tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] max-w-[720px]">
+                <h1 className="tracking-light max-w-[720px] text-[32px] leading-tight font-bold text-[#0d141c] @[480px]:text-4xl @[480px]:leading-tight @[480px]:font-black @[480px]:tracking-[-0.033em]">
                   Everything You Need to Succeed
                 </h1>
-                <p className="text-[#0d141c] text-base font-normal leading-normal max-w-[720px]">
+                <p className="max-w-[720px] text-base leading-normal font-normal text-[#0d141c]">
                   Our platform provides all the tools necessary to build and
                   grow your online store, from setup to marketing.
                 </p>
               </div>
               <div className="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-0">
-                <div className="flex flex-1 gap-3 rounded-lg border border-[#cedbe8] bg-slate-50 p-4 flex-col">
+                <div className="flex flex-1 flex-col gap-3 rounded-lg border border-[#cedbe8] bg-slate-50 p-4">
                   <div
                     className="text-[#0d141c]"
                     data-icon="Storefront"
@@ -175,15 +181,15 @@ const Landing: React.FC = () => {
                     </svg>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <h2 className="text-[#0d141c] text-base font-bold leading-tight">
+                    <h2 className="text-base leading-tight font-bold text-[#0d141c]">
                       Instant Store Setup
                     </h2>
-                    <p className="text-[#49739c] text-sm font-normal leading-normal">
+                    <p className="text-sm leading-normal font-normal text-[#49739c]">
                       Fill in a few details and your store is ready.
                     </p>
                   </div>
                 </div>
-                <div className="flex flex-1 gap-3 rounded-lg border border-[#cedbe8] bg-slate-50 p-4 flex-col">
+                <div className="flex flex-1 flex-col gap-3 rounded-lg border border-[#cedbe8] bg-slate-50 p-4">
                   <div
                     className="text-[#0d141c]"
                     data-icon="GlobeHemisphereWest"
@@ -201,15 +207,15 @@ const Landing: React.FC = () => {
                     </svg>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <h2 className="text-[#0d141c] text-base font-bold leading-tight">
+                    <h2 className="text-base leading-tight font-bold text-[#0d141c]">
                       Custom Domain Support
                     </h2>
-                    <p className="text-[#49739c] text-sm font-normal leading-normal">
+                    <p className="text-sm leading-normal font-normal text-[#49739c]">
                       Connect your own brand domain in minutes.
                     </p>
                   </div>
                 </div>
-                <div className="flex flex-1 gap-3 rounded-lg border border-[#cedbe8] bg-slate-50 p-4 flex-col">
+                <div className="flex flex-1 flex-col gap-3 rounded-lg border border-[#cedbe8] bg-slate-50 p-4">
                   <div
                     className="text-[#0d141c]"
                     data-icon="Megaphone"
@@ -227,15 +233,15 @@ const Landing: React.FC = () => {
                     </svg>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <h2 className="text-[#0d141c] text-base font-bold leading-tight">
+                    <h2 className="text-base leading-tight font-bold text-[#0d141c]">
                       Built-in Marketing (MAAS)
                     </h2>
-                    <p className="text-[#49739c] text-sm font-normal leading-normal">
+                    <p className="text-sm leading-normal font-normal text-[#49739c]">
                       Smart marketing tools to grow your business.
                     </p>
                   </div>
                 </div>
-                <div className="flex flex-1 gap-3 rounded-lg border border-[#cedbe8] bg-slate-50 p-4 flex-col">
+                <div className="flex flex-1 flex-col gap-3 rounded-lg border border-[#cedbe8] bg-slate-50 p-4">
                   <div
                     className="text-[#0d141c]"
                     data-icon="Code"
@@ -253,93 +259,102 @@ const Landing: React.FC = () => {
                     </svg>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <h2 className="text-[#0d141c] text-base font-bold leading-tight">
+                    <h2 className="text-base leading-tight font-bold text-[#0d141c]">
                       No Coding Required
                     </h2>
-                    <p className="text-[#49739c] text-sm font-normal leading-normal">
+                    <p className="text-sm leading-normal font-normal text-[#49739c]">
                       Focus on your business, not tech.
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-            <h2 className="text-[#0d141c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
+            <h2 className="px-4 pt-5 pb-3 text-[22px] leading-tight font-bold tracking-[-0.015em] text-[#0d141c]">
               How It Works
             </h2>
             <div className="grid grid-cols-[40px_1fr] gap-x-2 px-4">
               <div className="flex flex-col items-center gap-1 pt-3">
-                <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-6">
+                <div className="aspect-square size-6 rounded-full bg-cover bg-center bg-no-repeat">
                   {" "}
-                  <img className="rounded-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXDRswqbOHyeZL3gEQvclaMVPJREX5pQP6JPhU-cZIB1bBf6RbgemzEZk3XlnQaOB2vUJS6SnfHg-XhRM6MizwEq6pHDbfWt7Zrmq47UwrQuXrLA2JhLuHxZ5XVe1g4-TQ-JZd5mHHTZDDdVj0lQEfyONFtksgw01VIxUPH7bW9Ti758x5pO3KowlbsmmrL6u9YxsY2_vxVf9rUXsCSGYXr-rkMjHl57NZ6-AAA8o8ajz7gu_YoFxUY8zOyx5vM0U2b9jYHzfzRzs" />
+                  <img
+                    className="rounded-2xl"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXDRswqbOHyeZL3gEQvclaMVPJREX5pQP6JPhU-cZIB1bBf6RbgemzEZk3XlnQaOB2vUJS6SnfHg-XhRM6MizwEq6pHDbfWt7Zrmq47UwrQuXrLA2JhLuHxZ5XVe1g4-TQ-JZd5mHHTZDDdVj0lQEfyONFtksgw01VIxUPH7bW9Ti758x5pO3KowlbsmmrL6u9YxsY2_vxVf9rUXsCSGYXr-rkMjHl57NZ6-AAA8o8ajz7gu_YoFxUY8zOyx5vM0U2b9jYHzfzRzs"
+                  />
                 </div>
-                <div className="w-[1.5px] bg-[#cedbe8] h-2 grow"></div>
+                <div className="h-2 w-[1.5px] grow bg-[#cedbe8]"></div>
               </div>
               <div className="flex flex-1 flex-col py-3">
-                <p className="text-[#0d141c] text-base font-medium leading-normal">
+                <p className="text-base leading-normal font-medium text-[#0d141c]">
                   Enter Your Details
                 </p>
-                <p className="text-[#49739c] text-base font-normal leading-normal">
+                <p className="text-base leading-normal font-normal text-[#49739c]">
                   Fill out our simple form with your business information.
                 </p>
               </div>
               <div className="flex flex-col items-center gap-1">
-                <div className="w-[1.5px] bg-[#cedbe8] h-2"></div>
-                <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-6">
+                <div className="h-2 w-[1.5px] bg-[#cedbe8]"></div>
+                <div className="aspect-square size-6 rounded-full bg-cover bg-center bg-no-repeat">
                   {" "}
-                  <img className="rounded-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfpHE_MLaSc7ELufT75GX5h1I-qzYBLaKAz957qGv745hxkHyy63sQjy7ftiYq1dtOZK3QQ6GnkNDp2_7jGtZb8mN5V9PZlEqs5WMs9J00Be1hK-6plCDwwBV9XAcpKAM6j498AB2mxZrPmr-LPgYmwkFrJ3eUpiP7n0Wp2pP-x3ge_QlF17zJDmhEGBgmgORVFmyQaWacK4454TROB295Ps0YKCpkNcqBTawA2naFOL0izvJ6tqQDvUXJTttiPA-Ql_KPo9d9Dt8" />{" "}
+                  <img
+                    className="rounded-2xl"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfpHE_MLaSc7ELufT75GX5h1I-qzYBLaKAz957qGv745hxkHyy63sQjy7ftiYq1dtOZK3QQ6GnkNDp2_7jGtZb8mN5V9PZlEqs5WMs9J00Be1hK-6plCDwwBV9XAcpKAM6j498AB2mxZrPmr-LPgYmwkFrJ3eUpiP7n0Wp2pP-x3ge_QlF17zJDmhEGBgmgORVFmyQaWacK4454TROB295Ps0YKCpkNcqBTawA2naFOL0izvJ6tqQDvUXJTttiPA-Ql_KPo9d9Dt8"
+                  />{" "}
                 </div>
-                <div className="w-[1.5px] bg-[#cedbe8] h-2 grow"></div>
+                <div className="h-2 w-[1.5px] grow bg-[#cedbe8]"></div>
               </div>
               <div className="flex flex-1 flex-col py-3">
-                <p className="text-[#0d141c] text-base font-medium leading-normal">
+                <p className="text-base leading-normal font-medium text-[#0d141c]">
                   Choose Your Store Name
                 </p>
-                <p className="text-[#49739c] text-base font-normal leading-normal">
+                <p className="text-base leading-normal font-normal text-[#49739c]">
                   Select a unique name for your store or let our generator
                   suggest one.
                 </p>
               </div>
               <div className="flex flex-col items-center gap-1 pb-3">
-                <div className="w-[1.5px] bg-[#cedbe8] h-2"></div>
-                <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-6">
-                  <img className="rounded-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABtciCGcXj2jvDZPmnJ8RqE1QoZZYiO6I_XBUDtnAzXAhA8Dfw33_-T9yzXWgrQPUZ6jwjJz1R79vacScUwGcIe7pBZ1nBH7yhWDuCBhlvJ6BoHSm_0efiK5fImZ2p_ssVTnBzNvjutecYDYjjEFIIvnUjz1tajBDIpYvuA_7XVeSP1NTjicfPr75lIIMB_TdYZJxpKTjHV1X3Ou76IwyT-4NA0dhd57FxqQol1YxpZAnnVN8hU5Odwufs2PSqKjTOxILus9QDfJU" />
+                <div className="h-2 w-[1.5px] bg-[#cedbe8]"></div>
+                <div className="aspect-square size-6 rounded-full bg-cover bg-center bg-no-repeat">
+                  <img
+                    className="rounded-2xl"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuABtciCGcXj2jvDZPmnJ8RqE1QoZZYiO6I_XBUDtnAzXAhA8Dfw33_-T9yzXWgrQPUZ6jwjJz1R79vacScUwGcIe7pBZ1nBH7yhWDuCBhlvJ6BoHSm_0efiK5fImZ2p_ssVTnBzNvjutecYDYjjEFIIvnUjz1tajBDIpYvuA_7XVeSP1NTjicfPr75lIIMB_TdYZJxpKTjHV1X3Ou76IwyT-4NA0dhd57FxqQol1YxpZAnnVN8hU5Odwufs2PSqKjTOxILus9QDfJU"
+                  />
                 </div>
               </div>
               <div className="flex flex-1 flex-col py-3">
-                <p className="text-[#0d141c] text-base font-medium leading-normal">
+                <p className="text-base leading-normal font-medium text-[#0d141c]">
                   Launch Instantly
                 </p>
-                <p className="text-[#49739c] text-base font-normal leading-normal">
+                <p className="text-base leading-normal font-normal text-[#49739c]">
                   Your store goes live immediately, ready to accept orders.
                 </p>
               </div>
             </div>
 
             <Testimonials />
-            <h2 className="text-[#0d141c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
+            <h2 className="px-4 pt-5 pb-3 text-[22px] leading-tight font-bold tracking-[-0.015em] text-[#0d141c]">
               Pricing
             </h2>
             <div className="grid grid-cols-[repeat(auto-fit,minmax(228px,1fr))] gap-2.5 px-4 py-3 @3xl:grid-cols-4">
               <div className="flex flex-1 flex-col gap-4 rounded-xl border border-solid border-[#cedbe8] bg-slate-50 p-6">
                 <div className="flex flex-col gap-1">
-                  <h1 className="text-[#0d141c] text-base font-bold leading-tight">
+                  <h1 className="text-base leading-tight font-bold text-[#0d141c]">
                     Starter
                   </h1>
                   <p className="flex items-baseline gap-1 text-[#0d141c]">
-                    <span className="text-[#0d141c] text-4xl font-black leading-tight tracking-[-0.033em]">
+                    <span className="text-4xl leading-tight font-black tracking-[-0.033em] text-[#0d141c]">
                       Free
                     </span>
-                    <span className="text-[#0d141c] text-base font-bold leading-tight">
+                    <span className="text-base leading-tight font-bold text-[#0d141c]">
                       /month
                     </span>
                   </p>
                 </div>
-                <Button>
+                <Button onClick={redirectToOnBoarding}>
                   <span className="truncate">Get Started Free</span>
                 </Button>
 
                 <div className="flex flex-col gap-2">
-                  <div className="text-[13px] font-normal leading-normal flex gap-3 text-[#0d141c]">
+                  <div className="flex gap-3 text-[13px] leading-normal font-normal text-[#0d141c]">
                     <div
                       className="text-[#0d141c]"
                       data-icon="Check"
@@ -358,7 +373,7 @@ const Landing: React.FC = () => {
                     </div>
                     Get your store online instantly
                   </div>
-                  <div className="text-[13px] font-normal leading-normal flex gap-3 text-[#0d141c]">
+                  <div className="flex gap-3 text-[13px] leading-normal font-normal text-[#0d141c]">
                     <div
                       className="text-[#0d141c]"
                       data-icon="Check"
@@ -382,27 +397,27 @@ const Landing: React.FC = () => {
               <div className="flex flex-1 flex-col gap-4 rounded-xl border border-solid border-[#cedbe8] bg-slate-50 p-6">
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center justify-between">
-                    <h1 className="text-[#0d141c] text-base font-bold leading-tight">
+                    <h1 className="text-base leading-tight font-bold text-[#0d141c]">
                       Pro
                     </h1>
-                    <p className="text-slate-50 text-xs font-medium leading-normal tracking-[0.015em] rounded-xl bg-[#0d80f2] px-3 py-[3px] text-center">
+                    <p className="rounded-xl bg-[#0d80f2] px-3 py-[3px] text-center text-xs leading-normal font-medium tracking-[0.015em] text-slate-50">
                       Most Popular
                     </p>
                   </div>
                   <p className="flex items-baseline gap-1 text-[#0d141c]">
-                    <span className="text-[#0d141c] text-4xl font-black leading-tight tracking-[-0.033em]">
+                    <span className="text-4xl leading-tight font-black tracking-[-0.033em] text-[#0d141c]">
                       $29
                     </span>
-                    <span className="text-[#0d141c] text-base font-bold leading-tight">
+                    <span className="text-base leading-tight font-bold text-[#0d141c]">
                       /month
                     </span>
                   </p>
                 </div>
-                <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#e7edf4] text-[#0d141c] text-sm font-bold leading-normal tracking-[0.015em]">
+                <button className="flex h-10 max-w-[480px] min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-[#e7edf4] px-4 text-sm leading-normal font-bold tracking-[0.015em] text-[#0d141c]">
                   <span className="truncate">Choose Pro</span>
                 </button>
                 <div className="flex flex-col gap-2">
-                  <div className="text-[13px] font-normal leading-normal flex gap-3 text-[#0d141c]">
+                  <div className="flex gap-3 text-[13px] leading-normal font-normal text-[#0d141c]">
                     <div
                       className="text-[#0d141c]"
                       data-icon="Check"
@@ -421,7 +436,7 @@ const Landing: React.FC = () => {
                     </div>
                     Custom domain
                   </div>
-                  <div className="text-[13px] font-normal leading-normal flex gap-3 text-[#0d141c]">
+                  <div className="flex gap-3 text-[13px] leading-normal font-normal text-[#0d141c]">
                     <div
                       className="text-[#0d141c]"
                       data-icon="Check"
@@ -440,7 +455,7 @@ const Landing: React.FC = () => {
                     </div>
                     Branding tools
                   </div>
-                  <div className="text-[13px] font-normal leading-normal flex gap-3 text-[#0d141c]">
+                  <div className="flex gap-3 text-[13px] leading-normal font-normal text-[#0d141c]">
                     <div
                       className="text-[#0d141c]"
                       data-icon="Check"
@@ -463,23 +478,23 @@ const Landing: React.FC = () => {
               </div>
               <div className="flex flex-1 flex-col gap-4 rounded-xl border border-solid border-[#cedbe8] bg-slate-50 p-6">
                 <div className="flex flex-col gap-1">
-                  <h1 className="text-[#0d141c] text-base font-bold leading-tight">
+                  <h1 className="text-base leading-tight font-bold text-[#0d141c]">
                     Growth
                   </h1>
                   <p className="flex items-baseline gap-1 text-[#0d141c]">
-                    <span className="text-[#0d141c] text-4xl font-black leading-tight tracking-[-0.033em]">
+                    <span className="text-4xl leading-tight font-black tracking-[-0.033em] text-[#0d141c]">
                       $79
                     </span>
-                    <span className="text-[#0d141c] text-base font-bold leading-tight">
+                    <span className="text-base leading-tight font-bold text-[#0d141c]">
                       /month
                     </span>
                   </p>
                 </div>
-                <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#e7edf4] text-[#0d141c] text-sm font-bold leading-normal tracking-[0.015em]">
+                <button className="flex h-10 max-w-[480px] min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-[#e7edf4] px-4 text-sm leading-normal font-bold tracking-[0.015em] text-[#0d141c]">
                   <span className="truncate">Choose Growth</span>
                 </button>
                 <div className="flex flex-col gap-2">
-                  <div className="text-[13px] font-normal leading-normal flex gap-3 text-[#0d141c]">
+                  <div className="flex gap-3 text-[13px] leading-normal font-normal text-[#0d141c]">
                     <div
                       className="text-[#0d141c]"
                       data-icon="Check"
@@ -498,7 +513,7 @@ const Landing: React.FC = () => {
                     </div>
                     Advanced analytics
                   </div>
-                  <div className="text-[13px] font-normal leading-normal flex gap-3 text-[#0d141c]">
+                  <div className="flex gap-3 text-[13px] leading-normal font-normal text-[#0d141c]">
                     <div
                       className="text-[#0d141c]"
                       data-icon="Check"
@@ -517,7 +532,7 @@ const Landing: React.FC = () => {
                     </div>
                     Automation
                   </div>
-                  <div className="text-[13px] font-normal leading-normal flex gap-3 text-[#0d141c]">
+                  <div className="flex gap-3 text-[13px] leading-normal font-normal text-[#0d141c]">
                     <div
                       className="text-[#0d141c]"
                       data-icon="Check"
@@ -539,7 +554,7 @@ const Landing: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col p-4 gap-3">
+            <div className="flex flex-col gap-3 p-4">
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
                   <AccordionTrigger>Do I need coding skills</AccordionTrigger>
@@ -578,14 +593,14 @@ const Landing: React.FC = () => {
             </div>
             <div className="@container">
               <div className="flex flex-col justify-end gap-6 px-4 py-10 @[480px]:gap-8 @[480px]:px-10 @[480px]:py-20">
-                <div className="flex flex-col gap-2 items-center text-center">
-                  <h1 className="text-[#0d141c] tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] max-w-[720px]">
+                <div className="flex flex-col items-center gap-2 text-center">
+                  <h1 className="tracking-light max-w-[720px] text-[32px] leading-tight font-bold text-[#0d141c] @[480px]:text-4xl @[480px]:leading-tight @[480px]:font-black @[480px]:tracking-[-0.033em]">
                     Ready to Launch Your Dream?
                   </h1>
                 </div>
                 <div className="flex flex-1 justify-center">
                   <div className="flex justify-center">
-                    <Button className="py-7 px-12" size={"lg"}>
+                    <Button className="px-12 py-7" size={"lg"}>
                       <span className="truncate text-xl">
                         Start Your Store Today 🚀
                       </span>
@@ -598,28 +613,28 @@ const Landing: React.FC = () => {
         </div>
         <footer className="flex justify-center">
           <div className="flex max-w-[960px] flex-1 flex-col">
-            <footer className="flex flex-col gap-6 px-5 py-10 text-center @container">
+            <footer className="@container flex flex-col gap-6 px-5 py-10 text-center">
               <div className="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around">
                 <a
-                  className="text-[#49739c] text-base font-normal leading-normal min-w-40"
+                  className="min-w-40 text-base leading-normal font-normal text-[#49739c]"
                   href="#"
                 >
                   About
                 </a>
                 <a
-                  className="text-[#49739c] text-base font-normal leading-normal min-w-40"
+                  className="min-w-40 text-base leading-normal font-normal text-[#49739c]"
                   href="#"
                 >
                   Contact
                 </a>
                 <a
-                  className="text-[#49739c] text-base font-normal leading-normal min-w-40"
+                  className="min-w-40 text-base leading-normal font-normal text-[#49739c]"
                   href="#"
                 >
                   Privacy
                 </a>
                 <a
-                  className="text-[#49739c] text-base font-normal leading-normal min-w-40"
+                  className="min-w-40 text-base leading-normal font-normal text-[#49739c]"
                   href="#"
                 >
                   Terms
@@ -681,7 +696,7 @@ const Landing: React.FC = () => {
                   </div>
                 </a>
               </div>
-              <p className="text-[#49739c] text-base font-normal leading-normal">
+              <p className="text-base leading-normal font-normal text-[#49739c]">
                 © 2024 StoreLaunch. All rights reserved.
               </p>
             </footer>

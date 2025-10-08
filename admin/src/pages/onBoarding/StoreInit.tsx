@@ -9,12 +9,38 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const storeInitSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  description: z.string().min(1, "Description is required"),
+  domain: z
+    .string()
+    .min(1, "Domain is required")
+    .max(20, "Domain can not be more then 20 letter"),
+});
+
+type StoreInitFormType = z.infer<typeof storeInitSchema>;
 
 type StoreInitPropType = {
-  handleStoreInit: () => void;
+  handleStoreInit: (data: any) => void;
 };
 
 const StoreInit: React.FC<StoreInitPropType> = ({ handleStoreInit }) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<StoreInitFormType>({
+    resolver: zodResolver(storeInitSchema),
+  });
+
+  const onSubmit = (data: StoreInitFormType) => {
+    handleStoreInit(data);
+  };
   return (
     <motion.div
       initial={{
@@ -45,26 +71,38 @@ const StoreInit: React.FC<StoreInitPropType> = ({ handleStoreInit }) => {
         <Label htmlFor="storename">Store Name</Label>
         <Input
           id="storename"
-          name="name"
+          {...register("name")}
           type="text"
           placeholder="john doh"
           required
         />
+        {errors.name && (
+          <p className="text-xs text-red-500">{errors.name.message}</p>
+        )}
       </div>
       <div className="grid gap-3">
         <Label htmlFor="dis">Store Description</Label>
         <Input
           id="dis"
           type="text"
-          name="description"
+          {...register("description")}
           placeholder="m@example.com"
           required
         />
+        {errors.description && (
+          <p className="text-xs text-red-500">{errors.description.message}</p>
+        )}
       </div>
       <div className="grid gap-3">
         <Label htmlFor="domain">Domain</Label>
         <div className="relative">
-          <Input id="domain" type="domain" placeholder="anshul" required />
+          <Input
+            id="domain"
+            type="domain"
+            {...register("domain")}
+            placeholder="anshul"
+            required
+          />
 
           <span className="absolute top-[50%] right-2 -translate-y-[50%]">
             <Tooltip>
@@ -82,10 +120,13 @@ const StoreInit: React.FC<StoreInitPropType> = ({ handleStoreInit }) => {
             </Tooltip>
           </span>
         </div>
-        <h1>anshul.marketplace.com</h1>
+        {errors.domain && (
+          <p className="text-xs text-red-500">{errors.domain.message}</p>
+        )}
+        <h1>{watch("domain")}.shopx.com</h1>
       </div>
 
-      <Button onClick={handleStoreInit} className="mt-2">
+      <Button onClick={handleSubmit(onSubmit)} className="mt-2">
         Create Store 🚀
       </Button>
     </motion.div>

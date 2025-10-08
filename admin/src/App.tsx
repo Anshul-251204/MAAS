@@ -4,6 +4,7 @@ import OnBoarding from "./pages/onBoarding/page";
 import Layout from "./pages/layout/Pannel";
 import ThemeAndLook from "./pages/themeAndLook/page";
 import Product from "./pages/product/page";
+import { Toaster } from "@/components/ui/sonner";
 
 const routes = createBrowserRouter([
   {
@@ -31,7 +32,12 @@ const routes = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={routes} />;
+  return (
+    <>
+      <RouterProvider router={routes} />
+      <Toaster />
+    </>
+  );
 }
 
 export default App;
