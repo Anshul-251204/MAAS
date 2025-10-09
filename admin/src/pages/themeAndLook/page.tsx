@@ -1,6 +1,4 @@
 import React, { useCallback, useState } from "react";
-// import { CustomTheme, ThemeBox } from "./ThemeBox";
-// import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Info, Plus, Upload, X } from "lucide-react";
 import {
@@ -9,15 +7,96 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
-// import { Button } from "@/components/ui/button";
+import { useMutation } from "@/hooks/useMutation";
+import { toast } from "sonner";
+import { fileService } from "@/api/fileServices";
+import { Button } from "@/components/ui/button";
+import { storeService } from "@/api/storeServices";
 
 const ThemeAndLook: React.FC = () => {
   const [logo, setLogo] = useState<string>("");
+  const [uploadLogo, setUploadLogo] = useState<FileType | null>(null);
   const [heroImages, setHeroImages] = useState<string[]>([]);
+  const [uploadImages, setUploadImages] = useState<FileType[]>([]);
+  const [storeTagLine, setStoreTagLine] = useState<string>("");
+  const [theme, setTheme] = useState<"MINIMAL" | "BENOT">("MINIMAL");
+  const [colors, setColor] = useState({
+    background: "#fffff",
+    foreground: "#010101",
+    accent: "#e7000b",
+  });
 
-  const handleLogoUpload = useCallback((files: FileList | null) => {
+  const { mutate: uploadFileLogo } = useMutation<ApiResponseType>(
+    fileService.upload,
+    {
+      onSuccess: (data) => {
+        setUploadLogo(data.data as FileType);
+      },
+      onError: (err) => {
+        if (err.response.data.message) {
+          toast.error(err.response.data.message, {
+            position: "top-center",
+          });
+        }
+      },
+    },
+  );
+
+  const { mutate: uploadFileImages } = useMutation<ApiResponseType>(
+    fileService.upload,
+    {
+      onSuccess: (data) => {
+        const currentData = data.data as FileType;
+        setUploadImages((p) => [...p, currentData]);
+      },
+      onError: (err) => {
+        if (err.response.data.message) {
+          toast.error(err.response.data.message, {
+            position: "top-center",
+          });
+        }
+      },
+    },
+  );
+
+  const { mutate: removeFile } = useMutation<ApiResponseType>(
+    fileService.remove,
+    {
+      onError: (err) => {
+        if (err.response.data.message) {
+          toast.error(err.response.data.message, {
+            position: "top-center",
+          });
+        }
+      },
+    },
+  );
+
+  const { mutate: addThemeConfig } = useMutation<ApiResponseType>(
+    storeService.addThemeConfig,
+    {
+      onSuccess: (data) => {
+        toast.success(data.message);
+      },
+      onError: (err) => {
+        if (err.response.data.message) {
+          toast.error(err.response.data.message, {
+            position: "top-center",
+          });
+        }
+      },
+    },
+  );
+
+  const handleLogoUpload = useCallback(async (files: FileList | null) => {
     if (!files || files.length === 0) return;
     const file = files[0];
+
+    const formData = new FormData();
+    formData.append("file", file, file.name);
+
+    await uploadFileLogo(formData);
+
     const reader = new FileReader();
     reader.onload = (e) => {
       setLogo(e.target?.result as string);
@@ -28,6 +107,20 @@ const ThemeAndLook: React.FC = () => {
   const handleImageUpload = useCallback(
     (files: FileList | null, index?: number) => {
       if (!files) return;
+
+      if (files.length > 1) {
+        for (let i = 0; i < files.length; i++) {
+          const formData = new FormData();
+          formData.append("file", files.item(i)!, files.item(i)!.name);
+          uploadFileImages(formData);
+        }
+      }
+
+      if (files.length == 1) {
+        const formData = new FormData();
+        formData.append("file", files[0], files[0].name);
+        uploadFileImages(formData);
+      }
 
       Array.from(files).forEach((file) => {
         const reader = new FileReader();
@@ -49,8 +142,31 @@ const ThemeAndLook: React.FC = () => {
     [],
   );
 
-  const removeImage = (index: number) => {
+  const removeLogoHandler = async () => {
+    removeFile(uploadLogo?.key);
+    setLogo("");
+  };
+
+  const removeImage = async (index: number) => {
+    console.log(index, "o", uploadImages);
+    const payload = uploadImages[index];
+    await removeFile(payload.key);
+    setUploadImages((p) => p.filter((_, i) => i !== index));
     setHeroImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleSaveTheme = async () => {
+    const themePayload = {
+      storeId: "689e25e7f48e4a10352b4bbc", // TODO: Store [store-data] in localstore and use here 
+      logo: uploadLogo?.url,
+      storeTagLine: storeTagLine,
+      media: uploadImages,
+      theme: theme,
+      backgroud: colors.background,
+      foreground: colors.foreground,
+      accent: colors.accent,
+    };
+    addThemeConfig(themePayload);
   };
 
   return (
@@ -94,7 +210,7 @@ const ThemeAndLook: React.FC = () => {
             </p>
             {logo && (
               <button
-                onClick={() => setLogo("")}
+                onClick={removeLogoHandler}
                 className="text-destructive mt-1 text-xs hover:underline"
               >
                 Remove logo
@@ -193,7 +309,10 @@ const ThemeAndLook: React.FC = () => {
           Store tagline
         </Label>
 
-        <Input />
+        <Input
+          value={storeTagLine}
+          onChange={(e) => setStoreTagLine(e.target.value)}
+        />
       </div>
 
       {/* store theme  */}
@@ -206,7 +325,10 @@ const ThemeAndLook: React.FC = () => {
           <div>
             <h1 className="mb-2 text-xl font-semibold">Minimal</h1>
 
-            <button className="w-full overflow-hidden rounded-2xl border object-cover sm:w-[350px]">
+            <button
+              onClick={() => setTheme("MINIMAL")}
+              className="w-full overflow-hidden rounded-2xl border object-cover sm:w-[350px]"
+            >
               <img src="./minimal.png" alt="" />
             </button>
           </div>
@@ -214,7 +336,10 @@ const ThemeAndLook: React.FC = () => {
           <div>
             <h1 className="mb-2 text-xl font-semibold">Minimal</h1>
 
-            <button className="w-full overflow-hidden rounded-2xl border object-cover sm:w-[350px]">
+            <button
+              onClick={() => setTheme("MINIMAL")}
+              className="w-full overflow-hidden rounded-2xl border object-cover sm:w-[350px]"
+            >
               <img src="./bento.png" alt="" />
             </button>
           </div>
@@ -224,10 +349,26 @@ const ThemeAndLook: React.FC = () => {
           <div className="flex items-center gap-4">
             <h1 className="w-[100px] font-semibold">Background : </h1>
             <div className="flex gap-4">
-              <div className="h-8 w-8 rounded-full border bg-white"></div>
-              <div className="h-8 w-8 rounded-full border bg-blue-500"></div>
-              <div className="h-8 w-8 rounded-full border bg-red-500"></div>
-              <div className="flex h-8 w-8 items-center justify-center rounded-full border font-semibold">
+              <div
+                onClick={() => setColor((c) => ({ ...c, background: "#fff" }))}
+                className="h-8 w-8 rounded-full border bg-white"
+              ></div>
+              <div
+                onClick={() =>
+                  setColor((c) => ({ ...c, background: "#2b7fff" }))
+                }
+                className="h-8 w-8 rounded-full border bg-blue-500"
+              ></div>
+              <div
+                onClick={() =>
+                  setColor((c) => ({ ...c, background: "e7000b" }))
+                }
+                className="h-8 w-8 rounded-full border bg-red-500"
+              ></div>
+              <div
+                onClick={() => setColor((c) => ({ ...c, background: "" }))}
+                className="flex h-8 w-8 items-center justify-center rounded-full border font-semibold"
+              >
                 <Plus size={"1.2rem"} />
               </div>
             </div>
@@ -236,10 +377,28 @@ const ThemeAndLook: React.FC = () => {
           <div className="flex items-center gap-4">
             <h1 className="w-[100px] font-semibold">foreground : </h1>
             <div className="flex gap-4">
-              <div className="h-8 w-8 rounded-full border bg-white"></div>
-              <div className="h-8 w-8 rounded-full border bg-gray-500"></div>
-              <div className="h-8 w-8 rounded-full border bg-yellow-100"></div>
-              <div className="flex h-8 w-8 items-center justify-center rounded-full border font-semibold">
+              <div
+                onClick={() =>
+                  setColor((c) => ({ ...c, foreground: "#010101" }))
+                }
+                className="h-8 w-8 rounded-full border bg-white"
+              ></div>
+              <div
+                onClick={() => setColor((c) => ({ ...c, foreground: "#fff" }))}
+                className="h-8 w-8 rounded-full border bg-gray-500"
+              ></div>
+              <div
+                onClick={() =>
+                  setColor((c) => ({ ...c, foreground: "##d2fb2a" }))
+                }
+                className="h-8 w-8 rounded-full border bg-yellow-100"
+              ></div>
+              <div
+                onClick={() =>
+                  setColor((c) => ({ ...c, foreground: "#010101" }))
+                }
+                className="flex h-8 w-8 items-center justify-center rounded-full border font-semibold"
+              >
                 <Plus size={"1.2rem"} />
               </div>
             </div>
@@ -248,14 +407,39 @@ const ThemeAndLook: React.FC = () => {
           <div className="flex items-center gap-4">
             <h1 className="w-[100px] font-semibold">Accent : </h1>
             <div className="flex gap-4">
-              <div className="h-8 w-8 rounded-full border bg-green-500"></div>
-              <div className="h-8 w-8 rounded-full border bg-red-500"></div>
-              <div className="h-8 w-8 rounded-full border bg-blue-500"></div>
-              <div className="flex h-8 w-8 items-center justify-center rounded-full border font-semibold">
+              <div
+                onClick={() => {
+                  setColor((c) => ({ ...c, accent: "#00c64b" }));
+                }}
+                className="h-8 w-8 rounded-full border bg-green-500"
+              ></div>
+              <div
+                onClick={() => {
+                  setColor((c) => ({ ...c, accent: "#f34144" }));
+                }}
+                className="h-8 w-8 rounded-full border bg-red-500"
+              ></div>
+              <div
+                onClick={() => {
+                  setColor((c) => ({ ...c, accent: "#3269f2" }));
+                }}
+                className="h-8 w-8 rounded-full border bg-blue-500"
+              ></div>
+              <div
+                onClick={() => {
+                  setColor((c) => ({ ...c, accent: "" }));
+                }}
+                className="flex h-8 w-8 items-center justify-center rounded-full border font-semibold"
+              >
                 <Plus size={"1.2rem"} />{" "}
               </div>
             </div>
           </div>
+        </div>
+        <div className="flex w-full justify-end">
+          <Button onClick={handleSaveTheme} className="my-4">
+            Save
+          </Button>
         </div>
       </div>
     </div>

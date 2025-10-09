@@ -5,3 +5,8 @@ type ApiResponseType = {
   message: string;
   code: string;
 };
+
+type FileType = {
+  key: string;
+  url: string;
+};

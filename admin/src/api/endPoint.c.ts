@@ -4,6 +4,10 @@ const ENDPOINT = {
   },
   store: {
     init: "/api/store",
+    addTheme:"/api/store/theme"
+  },
+  file: {
+    upload: "/api/file",
   },
 };
 
