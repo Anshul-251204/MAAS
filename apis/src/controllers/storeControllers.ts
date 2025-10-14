@@ -49,10 +49,10 @@ const addThemeConfig = asyncHandler(
   }
 );
 const getStoreDetails = asyncHandler(
-  async (req: Request<{ storeId: string }>, res: Response) => {
-    const { storeId } = req.params;
+  async (req: Request<{ domain: string }>, res: Response) => {
+    const { domain } = req.params;
 
-    const result = await StoreServices.getStoreDetails(storeId);
+    const result = await StoreServices.getStoreDetailsByDomain(domain);
 
     res
       .status(HTTP.statusCode.CREATED)

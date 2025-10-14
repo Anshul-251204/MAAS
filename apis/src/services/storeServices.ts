@@ -36,7 +36,7 @@ export class StoreServices {
     );
 
     console.log('store exist', storeExist);
-    
+
     if (storeExist) {
       throw new ApiError(
         'Store already exists with this domain or custom domin',
@@ -64,6 +64,12 @@ export class StoreServices {
   async getStoreDetails(storeId: string) {
     const store = await StoreRepo.findById(storeId);
     const theme = await ThemeRepo.findByStoreId(storeId);
+    return { store, theme };
+  }
+
+  async getStoreDetailsByDomain(domain: string) {
+    const store = await StoreRepo.findOne({ domain: domain });
+    const theme = await ThemeRepo.findByStoreId(store?._id as string);
     return { store, theme };
   }
 }

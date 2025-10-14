@@ -19,8 +19,6 @@ storeRouter
     validateRequest(requestSchemas.CreateThemeSchema),
     StoreControllers.addThemeConfig
   );
-storeRouter
-  .route('/theme/:storeId')
-  .post(auth, StoreControllers.getStoreDetails);
+storeRouter.route('/theme/:domain').get(StoreControllers.getStoreDetails);
 
 export { storeRouter };

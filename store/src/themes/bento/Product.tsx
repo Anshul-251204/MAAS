@@ -1,7 +1,7 @@
 const Product = () => {
   return (
     <div className="rounded-3xl overflow-hidden group relative flex justify-center items-center transition-all duration-400 ">
-      <h1 className=" text-3xl font-bold font-roboto absolute bg-white mix-blend-color-dodge p-4 py-2 rounded-xl group-hover:block hidden transition-all duration-400 ">
+      <h1 className=" text-3xl font-bold font-roboto absolute bg-accent mix-blend-color-dodge p-4 py-2 rounded-xl group-hover:block hidden transition-all duration-400 ">
         Sofa
       </h1>
       <img
