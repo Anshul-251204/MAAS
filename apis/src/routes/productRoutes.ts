@@ -12,3 +12,5 @@ productRouter
     validateRequest(requestSchemas.createProductSchema),
     ProductControllers.createProduct
   );
+
+productRouter.route('/:storeId').get(auth, ProductControllers.getStoreProducts);

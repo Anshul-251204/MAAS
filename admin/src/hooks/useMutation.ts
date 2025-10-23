@@ -22,6 +22,7 @@ export function useMutation<T>(
       options?.onSuccess?.(data);
       return data;
     } catch (err: any) {
+      console.log("api Error => ", err);
       if (err.response.data) {
         setError(err.response.data);
       } else {

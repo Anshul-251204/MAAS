@@ -4,6 +4,7 @@ import ENDPOINT from "./endPoint.c";
 export const userService = {
   signUp: <T>(userDetails: T) =>
     axiosInstance.post(ENDPOINT.auth.signUp, userDetails),
+  singin: (cred: string) => axiosInstance.post(ENDPOINT.auth.singin, cred),
 };
 
 // getUsers: () => axiosInstance.get(ENDPOINT.auth.signUp),

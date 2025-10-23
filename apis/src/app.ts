@@ -3,6 +3,7 @@ import { errorHandler } from './middlewares/errorHandler';
 import { requestLogger } from './middlewares/requestLogger';
 import { storeRouter, userRouter, productRouter, fileRouter } from './routes';
 import cors from 'cors';
+import { categoryRouter } from './routes/categoryRoutes';
 const app = express();
 
 app.use(
@@ -26,5 +27,6 @@ app.use('/auth', userRouter);
 app.use('/api/store', storeRouter);
 app.use('/api/product', productRouter);
 app.use('/api/file', fileRouter);
+app.use("/api/category",categoryRouter)
 export default app;
 app.use(errorHandler);

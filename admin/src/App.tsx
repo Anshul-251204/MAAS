@@ -5,6 +5,7 @@ import Layout from "./pages/layout/Pannel";
 import ThemeAndLook from "./pages/themeAndLook/page";
 import Product from "./pages/product/page";
 import { Toaster } from "@/components/ui/sonner";
+import Login from "./pages/login/Login";
 
 const routes = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const routes = createBrowserRouter([
   {
     path: "/onboarding",
     element: <OnBoarding />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 

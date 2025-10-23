@@ -2,6 +2,14 @@ import { requestSchemas } from '../validators';
 import Product, { IProduct } from '../models/productModel';
 import { FilterQuery, UpdateQuery } from 'mongoose';
 
+type FindByStoreIdReturnType = {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  products: IProduct[];
+};
+
 export class ProductRepository {
   async create(
     productData: requestSchemas.CreateProductSchemaType
@@ -33,6 +41,40 @@ export class ProductRepository {
 
   async deleteById(id: string): Promise<IProduct | null> {
     return await Product.findByIdAndDelete(id).exec();
+  }
+  async findByStoreId(
+    storeId: string,
+    search: string = '',
+    page: number = 0,
+    limit: number = 20,
+    sortField: string,
+    sortOrder: 1 | -1
+  ): Promise<FindByStoreIdReturnType> {
+    const skip = (page - 1) * limit;
+
+    const filter: Record<string, string | number | object> = {
+      storeId: storeId,
+    };
+
+    if (search) {
+      const regex = new RegExp(search as string, 'i');
+      filter.$or = [{ name: regex }, { description: regex }];
+    }
+
+    const [products, total] = await Promise.all([
+      Product.find(filter)
+        .sort({ [sortField]: sortOrder })
+        .skip(skip)
+        .limit(limit),
+      Product.countDocuments(filter),
+    ]);
+    return {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+      products: products,
+    };
   }
 }
 

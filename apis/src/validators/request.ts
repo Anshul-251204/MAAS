@@ -1,6 +1,5 @@
 import { z } from 'zod/v4';
 import mongoose from 'mongoose';
-import { issue } from 'zod/v4/core/util';
 
 export const createUserSchema = z.object({
   name: z
@@ -237,6 +236,23 @@ export const createProductSchema = z.object({
         }
       },
     }),
+  sizes: z.array(z.string()).optional(),
+  colors: z
+    .array(
+      z.object({
+        color: z.string(),
+        value: z.string(),
+      })
+    )
+    .optional(),
+  keyValues: z
+    .array(
+      z.object({
+        key: z.string(),
+        value: z.string(),
+      })
+    )
+    .optional(),
 });
 
 export type CreateProductSchemaType = z.infer<typeof createProductSchema>;
@@ -275,3 +291,22 @@ export const CreateThemeSchema = z.object({
 });
 
 export type CreateThemeSchemaType = z.infer<typeof CreateThemeSchema>;
+
+// @category
+
+export const CreateCategorySchema = z.object({
+  name: z
+    .string()
+    .min(2, 'Name is required !')
+    .max(40, 'Name can only 40 words'),
+  description: z
+    .string()
+    .min(2, 'Description is required !')
+    .max(100, 'Description can only 100 words'),
+  media: z.object({
+    key: z.string(),
+    url: z.url(),
+  }),
+});
+
+export type CreateCategoryType = z.infer<typeof CreateCategorySchema>;

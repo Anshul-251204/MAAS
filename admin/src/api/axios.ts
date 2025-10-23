@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
 
 // ✅ Interceptors (auth + error handling)
 axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("x-secure-token");
+  const token = JSON.parse(localStorage.getItem("auth-storage")!).state?.token;
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });

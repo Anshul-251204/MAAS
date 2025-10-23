@@ -12,6 +12,8 @@ storeRouter
     StoreControllers.createStore
   );
 
+storeRouter.route('/:userId').get(auth, StoreControllers.getStoreDetailsByUser);
+
 storeRouter
   .route('/theme')
   .post(

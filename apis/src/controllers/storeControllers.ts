@@ -48,6 +48,7 @@ const addThemeConfig = asyncHandler(
       );
   }
 );
+
 const getStoreDetails = asyncHandler(
   async (req: Request<{ domain: string }>, res: Response) => {
     const { domain } = req.params;
@@ -67,8 +68,28 @@ const getStoreDetails = asyncHandler(
   }
 );
 
+const getStoreDetailsByUser = asyncHandler(
+  async (req: Request<{ userId: string }>, res: Response) => {
+    const { userId } = req.params;
+
+    const result = await StoreServices.getByUserId(userId);
+
+    res
+      .status(HTTP.statusCode.CREATED)
+      .json(
+        new ApiResponse(
+          HTTP.statusCode.OK,
+          result,
+          'Store details fetched successfully ✅',
+          HTTP.code.SUCCESS
+        )
+      );
+  }
+);
+
 export const StoreControllers = {
   createStore,
   addThemeConfig,
-  getStoreDetails
+  getStoreDetails,
+  getStoreDetailsByUser,
 };
