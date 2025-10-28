@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8000",
@@ -15,9 +15,12 @@ axiosInstance.interceptors.request.use((config) => {
 
 axiosInstance.interceptors.response.use(
   (res) => res,
-  (err) => {
-    if (err.response?.status === 401) {
-      // handle auth expired
+  (err: AxiosError<any>) => {
+    if (
+      Number(err.response?.status) === 403 &&
+      err.response?.data.message == "Accesstoken is expired"
+    ) {
+      window.location.href = "/login"
       console.warn("Session expired, please login again.");
     }
     return Promise.reject(err);

@@ -72,14 +72,14 @@ const getStoreDetailsByUser = asyncHandler(
   async (req: Request<{ userId: string }>, res: Response) => {
     const { userId } = req.params;
 
-    const result = await StoreServices.getByUserId(userId);
+    const result = await StoreServices.getByUserIdWithCategory(userId);
 
     res
       .status(HTTP.statusCode.CREATED)
       .json(
         new ApiResponse(
           HTTP.statusCode.OK,
-          result,
+          result[0],
           'Store details fetched successfully ✅',
           HTTP.code.SUCCESS
         )

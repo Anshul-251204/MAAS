@@ -1,6 +1,6 @@
 import { requestSchemas } from '../validators';
 import Store, { IStore } from '../models/storeModel';
-import { FilterQuery, UpdateQuery } from 'mongoose';
+import mongoose, { FilterQuery, UpdateQuery } from 'mongoose';
 
 export class StoreRepository {
   async create(
@@ -76,6 +76,23 @@ export class StoreRepository {
 
   async findByPlan(plan: IStore['plan']): Promise<IStore[]> {
     return await Store.find({ plan }).exec();
+  }
+  async findByUserIdWithCategory(userId: string) {
+    return await Store.aggregate([
+      {
+        $match: {
+          userId: new mongoose.Types.ObjectId(userId),
+        },
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: '_id',
+          foreignField: 'storeId',
+          as: 'categories',
+        },
+      },
+    ]);
   }
 }
 

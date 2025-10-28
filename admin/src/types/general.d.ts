@@ -6,6 +6,14 @@ type ApiResponseType<T = any> = {
   code: string;
 };
 
+type ApiResponsePaginated<T = any> = {
+  limit: number;
+  page: number;
+  products: T[];
+  total: number;
+  totalPages: number;
+};
+
 type CategoryType = {
   media: {
     key: string;
@@ -28,6 +36,7 @@ type StoreType = {
   name: string;
   plan: "free" | "basic" | "permium";
   status: "active" | "deactive" | "disable";
+  categories?:CategoryType[]
   createdAt: Date;
   updatedAt: Date;
 };
@@ -35,4 +44,28 @@ type StoreType = {
 type FileType = {
   key: string;
   url: string;
+};
+
+type ProductType = {
+  name: string;
+  description: string;
+  media: {
+    type: "videos" | "images";
+    id: string;
+    url: string;
+  }[];
+  category: string;
+  price: number;
+  storeId: string | ObjectId;
+  stock?: number;
+  sizes?: string[];
+  colors?: {
+    color: string;
+    value: string;
+  }[];
+  keyValues?: {
+    key: string;
+    value: string;
+  }[];
+  _id: string;
 };

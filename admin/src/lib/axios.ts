@@ -1,4 +1,3 @@
-
 import axios from "axios";
 
 const axiosInstance = axios.create({
@@ -6,7 +5,6 @@ const axiosInstance = axios.create({
   withCredentials: true,
   timeout: 15000,
 });
-
 
 axiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem("access_token");
@@ -17,10 +15,6 @@ axiosInstance.interceptors.request.use((config) => {
 axiosInstance.interceptors.response.use(
   (res) => res,
   (err) => {
-    if (err.response?.status === 401) {
-      // handle auth expired
-      console.warn("Session expired, please login again.");
-    }
     return Promise.reject(err);
   },
 );

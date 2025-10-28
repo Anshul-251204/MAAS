@@ -12,9 +12,10 @@ const ENDPOINT = {
   file: {
     upload: "/api/file",
   },
-  product : {
-    create:"/api/product"
-  }
+  product: {
+    create: "/api/product",
+    get: "/api/product",
+  },
 };
 
 export default ENDPOINT;

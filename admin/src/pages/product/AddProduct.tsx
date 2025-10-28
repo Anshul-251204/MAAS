@@ -115,13 +115,13 @@ const AddProduct: React.FC = () => {
     },
   );
 
-  const { data: categories, refetch: fetchCategories } = useApi<
-    ApiResponseType<CategoryType[]>
-  >((store) => storeService.getStoreCategories(store?._id), [], {
-    onError: () => {},
-    onSuccess: () => {},
-    autoFetch: false,
-  });
+  // const { data: categories, refetch: fetchCategories } = useApi<
+  //   ApiResponseType<CategoryType[]>
+  // >((store) => storeService.getStoreCategories(store?._id), [], {
+  //   onError: () => {},
+  //   onSuccess: () => {},
+  //   autoFetch: false,
+  // });
 
   const { mutate: addProductHandler } = useMutation<ApiResponseType<object>>(
     productService.create,
@@ -296,11 +296,11 @@ const AddProduct: React.FC = () => {
     }));
   };
 
-  useEffect(() => {
-    if (store?._id) {
-      fetchCategories(store);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (store?._id) {
+  //     // fetchCategories(store);
+  //   }
+  // }, []);
 
   return (
     <div className="flex w-full justify-end">
@@ -360,7 +360,7 @@ const AddProduct: React.FC = () => {
                     <SelectValue placeholder="Category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories?.data?.map((cat) => (
+                    {store?.categories?.map((cat) => (
                       <SelectItem key={cat._id} value={cat.name}>
                         {cat.name}
                       </SelectItem>

@@ -6,6 +6,7 @@ import env from '../config/env';
 import ThemeRepo from '../repositories/themeRepo';
 import { ObjectId } from 'mongoose';
 import storeRepo from '../repositories/storeRepo';
+import Store from '../models/storeModel';
 
 export class StoreServices {
   async registerStore(
@@ -54,6 +55,10 @@ export class StoreServices {
 
   async getByUserId(userId: string) {
     return await storeRepo.findOne({ userId });
+  }
+
+  async getByUserIdWithCategory(userId: string) {
+    return await storeRepo.findByUserIdWithCategory(userId);
   }
 
   async getByDomin(domin: string) {

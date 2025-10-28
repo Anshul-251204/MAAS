@@ -6,6 +6,7 @@ import ThemeAndLook from "./pages/themeAndLook/page";
 import Product from "./pages/product/page";
 import { Toaster } from "@/components/ui/sonner";
 import Login from "./pages/login/Login";
+import Category from "./pages/category/Category";
 
 const routes = createBrowserRouter([
   {
@@ -20,6 +21,11 @@ const routes = createBrowserRouter([
         path: "/dashboard/product",
         element: <Product />,
       },
+      {
+        path:"/dashboard/category",
+        element:<Category/>
+      }
+
     ],
   },
   {

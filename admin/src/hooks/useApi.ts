@@ -3,7 +3,8 @@ import { useEffect, useState, useCallback } from "react";
 interface UseApiOptions<T> {
   onSuccess?: (data: T) => void;
   onError?: (error: any) => void;
-  autoFetch?: boolean; //  new flag to control auto fetch
+  autoFetch?: boolean;
+  debounceMs?: number; // 👈 new option for debouncing
 }
 
 interface ApiState<T> {
@@ -39,11 +40,15 @@ export function useApi<T>(
   }, deps);
 
   useEffect(() => {
-    // 👇 Only auto-fetch when autoFetch
-    if (options?.autoFetch !== false) {
+    if (options?.autoFetch === false) return;
+
+    const delay = options?.debounceMs ?? 0;
+    const timer = setTimeout(() => {
       fetchData();
-    }
-  }, [fetchData, options?.autoFetch]);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [...deps, options?.autoFetch, options?.debounceMs]);
 
   return { ...state, refetch: fetchData };
 }

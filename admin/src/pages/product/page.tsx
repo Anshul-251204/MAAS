@@ -4,8 +4,28 @@ import { Button } from "@/components/ui/button";
 import { Edit, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+// import { useMutation } from "@/hooks/useMutation";
+import { productService } from "@/api/productServices";
+import { useApi } from "@/hooks/useApi";
+import { useStoreStore } from "@/store/Store";
+import { AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 
-const LatestProduct = () => {
+type LastestProductProp = {
+  imageSrc: string;
+  price: number;
+  stock: number;
+  name: string;
+  description: string;
+};
+
+const LatestProduct: React.FC<LastestProductProp> = ({
+  imageSrc,
+  price,
+  stock,
+  description,
+  name,
+}) => {
   const [isHover, setIsHover] = useState<boolean>(false);
   return (
     <div
@@ -16,24 +36,20 @@ const LatestProduct = () => {
       <div className="flex gap-2">
         <img
           className="h-[220px] w-full object-cover"
-          src="https://images.unsplash.com/photo-1553691475-f38e4026275b?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt=""
+          src={imageSrc}
+          alt="product-image"
         />
       </div>
 
       <div className="flex flex-col gap-2 p-4">
         <div className="flex justify-between">
-          <h2 className="text-md font-bold">Rs. 1440</h2>
+          <h2 className="text-md font-bold">Rs. {price}</h2>
           <div className="w-fit rounded-2xl bg-green-200 p-1 px-4 text-xs font-bold text-green-600">
-            Stock : 214
+            Stock : {stock}
           </div>
         </div>
-        <h2 className="text-md font-bold"> Brush </h2>
-        <p className="text-sm">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. amet
-          consectetur adipisicing elit. Atque, voluptate cupiditate quia dolor
-          magnam expedita mollitia...
-        </p>
+        <h2 className="text-md font-bold"> {name} </h2>
+        <p className="text-sm">{description}</p>
 
         <div className="flex flex-1 flex-col gap-2 rounded-md">
           <div className="flex items-center justify-end gap-2">
@@ -52,38 +68,80 @@ const LatestProduct = () => {
 };
 
 const Product: React.FC = () => {
+  const { store } = useStoreStore();
+
+  const [query, setQuery] = useState({
+    search: "",
+  });
+
+  const {
+    data: productsData,
+    loading: productLoading,
+    refetch: fetchProducts,
+  } = useApi<ApiResponseType<ApiResponsePaginated<ProductType>>>(
+    () => productService.get(`/${store?._id}?search=${query.search}`),
+    [query.search],
+    {
+      debounceMs:700
+    }
+  );
+
+  console.log(query);
+
   return (
     <div className="h-full w-full">
       <div className="mb-4 flex items-end justify-between py-4">
         <div className="grid gap-3">
           <Label className="text-lg">Search</Label>
           <div className="flex gap-2">
-            <Input className="w-[400px]" />
-            <Button>Search</Button>
+            <Input
+              onChange={(e) => {
+                setQuery((p) => ({ ...p, search: e.target.value }));
+              }}
+              className="w-[400px]"
+            />
+            <Button onClick={fetchProducts}>Search</Button>
           </div>
         </div>
         <AddProduct />
       </div>
-      <div className="flex flex-wrap gap-6">
-        <LatestProduct />
-        <LatestProduct />
-        <LatestProduct />
-        <LatestProduct />
-        <LatestProduct />
-        <LatestProduct />
-        <LatestProduct />
-        <LatestProduct />
-        <LatestProduct />
-        <LatestProduct />
-        <LatestProduct />
-        <LatestProduct />
-        <LatestProduct />
-        <LatestProduct />
-        <LatestProduct />
-
-        {/* <LatestProduct />
-        <LatestProduct /> */}
-      </div>
+      <AnimatePresence>
+        {productLoading ? (
+          <div className="flex h-[50%] w-full items-center justify-center">
+            <div className="flex items-center gap-4">
+              <div className="border-primary h-6 w-6 animate-spin rounded-full border border-l-transparent"></div>
+              <span className="animate-pulse text-2xl font-semibold">
+                Loading.....
+              </span>
+            </div>
+          </div>
+        ) : (
+          <motion.div
+            initial={{
+              opacity: 0,
+            }}
+            animate={{
+              opacity: 1,
+            }}
+            transition={{
+              duration: 0.3,
+              ease: "easeInOut",
+            }}
+            className="flex flex-wrap gap-6"
+          >
+            {productsData?.data.products.map((prod) => (
+              <LatestProduct
+                name={prod?.name}
+                description={prod?.description}
+                imageSrc={prod.media[0]?.url}
+                price={prod?.price}
+                stock={Number(prod?.stock)}
+                key={prod?._id}
+              />
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
