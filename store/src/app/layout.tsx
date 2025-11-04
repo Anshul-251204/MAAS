@@ -37,9 +37,9 @@ export default async function RootLayout({
 }>) {
 	const store = await fetchStore();
  	const rootStyle = {
-		["--color-background" as any]: store.data.theme.backgroud,
-		["--color-foreground" as any]: store.data.theme.foreground,
-		["--color-primary" as any]: store.data.theme.accent,
+		// ["--color-background" as any]: store.data.theme.backgroud,
+		// ["--color-foreground" as any]: store.data.theme.foreground,
+		// ["--color-primary" as any]: store.data.theme.accent,
 		// ["--border" as any]: store.themeOverrides.border,
 	} as React.CSSProperties;
 	return (
